@@ -1,0 +1,55 @@
+{
+  "jsonapi": {
+    "version": "1.0"
+  },
+  "meta": {
+    "unpaginatedCount": 1
+  },
+  "data": [
+    {
+      "type": "Usercategory",
+      "id": "1",
+      "attributes": {
+        "name": "salesperson"
+      },
+      "relationships": {
+        "users": {
+          "data": [
+            {
+              "type": "User",
+              "id": "2"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "Todo",
+      "id": "1",
+      "attributes": {
+        "name": "A todo for user 2",
+        "due_date": "2024-12-12T00:00:00.000Z",
+        "importance": 7
+      }
+    },
+    {
+      "type": "User",
+      "id": "2",
+      "attributes": {
+        "name": "Salesy McSalesface"
+      },
+      "relationships": {
+        "todos": {
+          "data": [
+            {
+              "type": "Todo",
+              "id": "1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
