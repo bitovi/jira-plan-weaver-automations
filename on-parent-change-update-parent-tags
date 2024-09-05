@@ -1,0 +1,361 @@
+{
+  "cloud": true,
+  "rules": [
+    {
+      "id": 19332763,
+      "clientKey": "85d0064a-d88f-3fb0-94f6-83bc501d5944",
+      "name": "Parent Change -> Update Reporting Tags",
+      "state": "ENABLED",
+      "description": "Change my parent tags when the parent changes",
+      "authorAccountId": "712020:09439106-98eb-4a97-a106-2dffd6fdaff0",
+      "actor": {
+        "type": "ACCOUNT_ID",
+        "value": "557058:f58131cb-b67d-43c7-b30d-6b58d40bd077"
+      },
+      "created": 1715372747438,
+      "updated": 1715376072843,
+      "trigger": {
+        "id": "450258450",
+        "component": "TRIGGER",
+        "parentId": null,
+        "conditionParentId": null,
+        "schemaVersion": 2,
+        "type": "jira.issue.field.changed",
+        "value": {
+          "changeType": "ANY_CHANGE",
+          "fields": [
+            {
+              "value": "parent",
+              "type": "field"
+            }
+          ],
+          "actions": [
+            "edit",
+            "create",
+            "transition"
+          ]
+        },
+        "children": [],
+        "conditions": [],
+        "connectionId": null
+      },
+      "components": [
+        {
+          "id": "450258451",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 3,
+          "type": "jira.issue.condition",
+          "value": {
+            "selectedField": {
+              "type": "ID",
+              "value": "issuetype"
+            },
+            "selectedFieldType": "issuetype",
+            "comparison": "ONE_OF",
+            "compareValue": {
+              "type": "ID",
+              "modifier": null,
+              "value": "[\"10000\",\"10110\",\"10067\",\"10111\"]",
+              "multiValue": true,
+              "source": null
+            }
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "450258452",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.condition.container.block",
+          "value": null,
+          "children": [
+            {
+              "id": "450258453",
+              "component": "CONDITION_BLOCK",
+              "parentId": "450258452",
+              "conditionParentId": null,
+              "schemaVersion": 1,
+              "type": "jira.condition.if.block",
+              "value": {
+                "conditionMatchType": "ALL"
+              },
+              "children": [
+                {
+                  "id": "450258455",
+                  "component": "ACTION",
+                  "parentId": "450258453",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.lookup.issues",
+                  "value": {
+                    "id": "_customsmartvalue_id_1715131255464",
+                    "name": {
+                      "type": "FREE",
+                      "value": "lookupIssues"
+                    },
+                    "type": "JQL",
+                    "query": {
+                      "type": "SMART",
+                      "value": "id = {{fieldChange.from}}"
+                    },
+                    "lazy": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "450258456",
+                  "component": "ACTION",
+                  "parentId": "450258453",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.create.variable",
+                  "value": {
+                    "id": "_customsmartvalue_id_1715131734804",
+                    "name": {
+                      "type": "FREE",
+                      "value": "reportingTagsToRemove"
+                    },
+                    "type": "SMART",
+                    "query": {
+                      "type": "SMART",
+                      "value": "[   {{#lookupIssues.first.Reporting Tags}} { \"remove\": \"{{.}}\" }, {{/}}   { \"remove\": \"{{lookupIssues.first.project.key}}\" } ]"
+                    },
+                    "lazy": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "450258457",
+                  "component": "ACTION",
+                  "parentId": "450258453",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "codebarrel.action.log",
+                  "value": "JSON = {{reportingTagsToRemove}}",
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "450258458",
+                  "component": "ACTION",
+                  "parentId": "450258453",
+                  "conditionParentId": null,
+                  "schemaVersion": 10,
+                  "type": "jira.issue.edit",
+                  "value": {
+                    "operations": [],
+                    "advancedFields": "{\n\t\"update\": {\n            \"Reporting Tags\": {{reportingTagsToRemove}}\n        }\n}",
+                    "sendNotifications": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "450258459",
+                  "component": "BRANCH",
+                  "parentId": "450258453",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.issue.related",
+                  "value": {
+                    "relatedType": "jql",
+                    "jql": "( issuekey in portfolioChildIssuesOf(\"{{issue.key}}\") and issuetype in (Epic, Initiative) )",
+                    "linkTypes": [],
+                    "onlyUpdatedIssues": false,
+                    "similarityLimit": 40,
+                    "compareValue": 0
+                  },
+                  "children": [
+                    {
+                      "id": "450258460",
+                      "component": "ACTION",
+                      "parentId": "450258459",
+                      "conditionParentId": null,
+                      "schemaVersion": 10,
+                      "type": "jira.issue.edit",
+                      "value": {
+                        "operations": [],
+                        "advancedFields": "{\n\t\"update\": {\n            \"Reporting Tags\": {{reportingTagsToRemove}}\n        }\n}",
+                        "sendNotifications": false
+                      },
+                      "children": [],
+                      "conditions": [],
+                      "connectionId": null
+                    }
+                  ],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "conditions": [
+                {
+                  "id": "450258454",
+                  "component": "CONDITION",
+                  "parentId": null,
+                  "conditionParentId": "450258453",
+                  "schemaVersion": 1,
+                  "type": "jira.comparator.condition",
+                  "value": {
+                    "first": "{{fieldChange.from}}",
+                    "second": "",
+                    "operator": "NOT_EQUALS"
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "connectionId": null
+            }
+          ],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "450258461",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.comparator.condition",
+          "value": {
+            "first": "{{issue.parent}}",
+            "second": "",
+            "operator": "NOT_EQUALS"
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "450258462",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.create.variable",
+          "value": {
+            "id": "_customsmartvalue_id_1715132393986",
+            "name": {
+              "type": "FREE",
+              "value": "reportingTagsToAdd"
+            },
+            "type": "SMART",
+            "query": {
+              "type": "SMART",
+              "value": "[   {{#issue.parent.Reporting Tags}} { \"add\": \"{{.}}\" }, {{/}}   { \"add\": \"{{issue.parent.project.key}}\" } ]"
+            },
+            "lazy": false
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "450258463",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "codebarrel.action.log",
+          "value": "Tags to Add {{reportingTagsToAdd}}",
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "450258464",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 10,
+          "type": "jira.issue.edit",
+          "value": {
+            "operations": [],
+            "advancedFields": "{\n\t\"update\": {\n            \"Reporting Tags\": {{reportingTagsToAdd}}\n        }\n}",
+            "sendNotifications": false
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "450258465",
+          "component": "BRANCH",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.issue.related",
+          "value": {
+            "relatedType": "jql",
+            "jql": "( issuekey in portfolioChildIssuesOf(\"{{issue.key}}\") and issuetype in (Epic, Initiative) )",
+            "linkTypes": [],
+            "onlyUpdatedIssues": false,
+            "similarityLimit": 40,
+            "compareValue": 0
+          },
+          "children": [
+            {
+              "id": "450258466",
+              "component": "ACTION",
+              "parentId": "450258465",
+              "conditionParentId": null,
+              "schemaVersion": 10,
+              "type": "jira.issue.edit",
+              "value": {
+                "operations": [],
+                "advancedFields": "{\n\t\"update\": {\n            \"Reporting Tags\": {{reportingTagsToAdd}}\n        }\n}",
+                "sendNotifications": false
+              },
+              "children": [],
+              "conditions": [],
+              "connectionId": null
+            }
+          ],
+          "conditions": [],
+          "connectionId": null
+        }
+      ],
+      "canOtherRuleTrigger": false,
+      "notifyOnError": "FIRSTERROR",
+      "projects": [],
+      "labels": [],
+      "tags": [
+        {
+          "id": 63310674,
+          "tagType": "IS_RULE_UPDATED",
+          "tagValue": "true"
+        }
+      ],
+      "ruleScope": {
+        "resources": [
+          "ari:cloud:jira::site/2604d8a6-7a83-454a-abcc-2cd164d90231"
+        ]
+      },
+      "ruleHome": {
+        "ruleLifecycleHome": {
+          "locationARI": "ari:cloud:jira-software::site/2604d8a6-7a83-454a-abcc-2cd164d90231"
+        },
+        "ruleBillingHome": {
+          "locationARI": "ari:cloud:jira-software::site/2604d8a6-7a83-454a-abcc-2cd164d90231"
+        }
+      },
+      "writeAccessType": "UNRESTRICTED",
+      "collaborators": [],
+      "billingType": "NORMAL",
+      "idUuid": null
+    }
+  ]
+} 
