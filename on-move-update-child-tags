@@ -1,0 +1,543 @@
+{
+  "cloud": true,
+  "rules": [
+    {
+      "id": 19579955,
+      "clientKey": "85d0064a-d88f-3fb0-94f6-83bc501d5944",
+      "name": "Move -> Update Squad Tags (fast)",
+      "state": "ENABLED",
+      "description": "",
+      "authorAccountId": "712020:09439106-98eb-4a97-a106-2dffd6fdaff0",
+      "actor": {
+        "type": "ACCOUNT_ID",
+        "value": "557058:f58131cb-b67d-43c7-b30d-6b58d40bd077"
+      },
+      "created": 1716585477803,
+      "updated": 1716601635202,
+      "trigger": {
+        "id": "458287408",
+        "component": "TRIGGER",
+        "parentId": null,
+        "conditionParentId": null,
+        "schemaVersion": 1,
+        "type": "jira.issue.event.trigger:moved",
+        "value": {
+          "eventKey": "jira:issue_updated",
+          "issueEvent": "issue_moved",
+          "sourceProject": "-1999",
+          "targetProject": "-1999"
+        },
+        "children": [],
+        "conditions": [],
+        "connectionId": null
+      },
+      "components": [
+        {
+          "id": "458287409",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 3,
+          "type": "jira.issue.condition",
+          "value": {
+            "selectedField": {
+              "type": "ID",
+              "value": "issuetype"
+            },
+            "selectedFieldType": "issuetype",
+            "comparison": "ONE_OF",
+            "compareValue": {
+              "type": "ID",
+              "modifier": null,
+              "value": "[\"10000\",\"10067\",\"10111\",\"10110\"]",
+              "multiValue": true,
+              "source": null
+            }
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "458287410",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.condition.container.block",
+          "value": null,
+          "children": [
+            {
+              "id": "458287411",
+              "component": "CONDITION_BLOCK",
+              "parentId": "458287410",
+              "conditionParentId": null,
+              "schemaVersion": 1,
+              "type": "jira.condition.if.block",
+              "value": {
+                "conditionMatchType": "ALL"
+              },
+              "children": [
+                {
+                  "id": "458287414",
+                  "component": "ACTION",
+                  "parentId": "458287411",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "codebarrel.action.log",
+                  "value": "Updating {{triggerIssue.parent.issueType.name}} {{triggerIssue.parent.key}} with squad tags",
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287415",
+                  "component": "ACTION",
+                  "parentId": "458287411",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.lookup.issues",
+                  "value": {
+                    "id": "_customsmartvalue_id_1715138960313",
+                    "name": {
+                      "type": "FREE",
+                      "value": "lookupIssues"
+                    },
+                    "type": "JQL",
+                    "query": {
+                      "type": "SMART",
+                      "value": "( issuekey in portfolioChildIssuesOf(\"{{issue.parent.key}}\") and issuetype in (Epic, Initiative) )"
+                    },
+                    "lazy": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287416",
+                  "component": "ACTION",
+                  "parentId": "458287411",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.create.variable",
+                  "value": {
+                    "id": "_customsmartvalue_id_1715109193039",
+                    "name": {
+                      "type": "FREE",
+                      "value": "distinctSquadKeys"
+                    },
+                    "type": "SMART",
+                    "query": {
+                      "type": "SMART",
+                      "value": "[{{#lookupIssues.project.key.distinct}}\"{{.}}\" {{^last}}, {{/}} {{/}}]"
+                    },
+                    "lazy": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287417",
+                  "component": "BRANCH",
+                  "parentId": "458287411",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.issue.related",
+                  "value": {
+                    "relatedType": "parent",
+                    "jql": "",
+                    "linkTypes": [],
+                    "onlyUpdatedIssues": false,
+                    "similarityLimit": 40,
+                    "compareValue": 0
+                  },
+                  "children": [
+                    {
+                      "id": "458287418",
+                      "component": "ACTION",
+                      "parentId": "458287417",
+                      "conditionParentId": null,
+                      "schemaVersion": 10,
+                      "type": "jira.issue.edit",
+                      "value": {
+                        "operations": [],
+                        "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": {{distinctSquadKeys}}\n    }\n}",
+                        "sendNotifications": true
+                      },
+                      "children": [],
+                      "conditions": [],
+                      "connectionId": null
+                    }
+                  ],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "conditions": [
+                {
+                  "id": "458287412",
+                  "component": "CONDITION",
+                  "parentId": null,
+                  "conditionParentId": "458287411",
+                  "schemaVersion": 1,
+                  "type": "jira.comparator.condition",
+                  "value": {
+                    "first": "{{issue.parent}}",
+                    "second": "",
+                    "operator": "NOT_EQUALS"
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287413",
+                  "component": "CONDITION",
+                  "parentId": null,
+                  "conditionParentId": "458287411",
+                  "schemaVersion": 3,
+                  "type": "jira.issue.condition",
+                  "value": {
+                    "selectedField": {
+                      "type": "ID",
+                      "value": "issuetype"
+                    },
+                    "selectedFieldType": "issuetype",
+                    "comparison": "NOT_EQUAL",
+                    "compareValue": {
+                      "type": "ID",
+                      "modifier": null,
+                      "value": "10000",
+                      "multiValue": false,
+                      "source": null
+                    }
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "connectionId": null
+            },
+            {
+              "id": "458287419",
+              "component": "CONDITION_BLOCK",
+              "parentId": "458287410",
+              "conditionParentId": null,
+              "schemaVersion": 1,
+              "type": "jira.condition.if.block",
+              "value": {
+                "conditionMatchType": "ALL"
+              },
+              "children": [
+                {
+                  "id": "458287422",
+                  "component": "ACTION",
+                  "parentId": "458287419",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.lookup.issues",
+                  "value": {
+                    "id": "_customsmartvalue_id_1715138960313",
+                    "name": {
+                      "type": "FREE",
+                      "value": "lookupIssues"
+                    },
+                    "type": "JQL",
+                    "query": {
+                      "type": "SMART",
+                      "value": "parent = {{parent.key}}"
+                    },
+                    "lazy": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287423",
+                  "component": "ACTION",
+                  "parentId": "458287419",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.create.variable",
+                  "value": {
+                    "id": "_customsmartvalue_id_1715109193039",
+                    "name": {
+                      "type": "FREE",
+                      "value": "distinctSquadKeys"
+                    },
+                    "type": "SMART",
+                    "query": {
+                      "type": "SMART",
+                      "value": "[{{#lookupIssues.project.key.distinct}}\"{{.}}\" {{^last}}, {{/}} {{/}}]"
+                    },
+                    "lazy": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287424",
+                  "component": "ACTION",
+                  "parentId": "458287419",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "codebarrel.action.log",
+                  "value": "Updating Initiative and its epics with {{distinctSquadKeys}}",
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287425",
+                  "component": "BRANCH",
+                  "parentId": "458287419",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.issue.related",
+                  "value": {
+                    "relatedType": "parent",
+                    "jql": "",
+                    "linkTypes": [],
+                    "onlyUpdatedIssues": false,
+                    "similarityLimit": 40,
+                    "compareValue": 0
+                  },
+                  "children": [
+                    {
+                      "id": "458287426",
+                      "component": "ACTION",
+                      "parentId": "458287425",
+                      "conditionParentId": null,
+                      "schemaVersion": 10,
+                      "type": "jira.issue.edit",
+                      "value": {
+                        "operations": [],
+                        "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": {{distinctSquadKeys}}\n    }\n}",
+                        "sendNotifications": true
+                      },
+                      "children": [],
+                      "conditions": [],
+                      "connectionId": null
+                    }
+                  ],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287427",
+                  "component": "BRANCH",
+                  "parentId": "458287419",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.issue.related",
+                  "value": {
+                    "relatedType": "jql",
+                    "jql": "parent = {{issue.parent.key}}",
+                    "linkTypes": [],
+                    "onlyUpdatedIssues": false,
+                    "similarityLimit": 40,
+                    "compareValue": 0
+                  },
+                  "children": [
+                    {
+                      "id": "458287428",
+                      "component": "ACTION",
+                      "parentId": "458287427",
+                      "conditionParentId": null,
+                      "schemaVersion": 10,
+                      "type": "jira.issue.edit",
+                      "value": {
+                        "operations": [],
+                        "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": {{distinctSquadKeys}}\n    }\n}",
+                        "sendNotifications": true
+                      },
+                      "children": [],
+                      "conditions": [],
+                      "connectionId": null
+                    }
+                  ],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287429",
+                  "component": "BRANCH",
+                  "parentId": "458287419",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.issue.related",
+                  "value": {
+                    "relatedType": "current",
+                    "jql": "",
+                    "linkTypes": [],
+                    "onlyUpdatedIssues": false,
+                    "similarityLimit": 40,
+                    "compareValue": 0
+                  },
+                  "children": [
+                    {
+                      "id": "458287430",
+                      "component": "ACTION",
+                      "parentId": "458287429",
+                      "conditionParentId": null,
+                      "schemaVersion": 10,
+                      "type": "jira.issue.edit",
+                      "value": {
+                        "operations": [],
+                        "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": {{distinctSquadKeys}}\n    }\n}",
+                        "sendNotifications": true
+                      },
+                      "children": [],
+                      "conditions": [],
+                      "connectionId": null
+                    }
+                  ],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "conditions": [
+                {
+                  "id": "458287420",
+                  "component": "CONDITION",
+                  "parentId": null,
+                  "conditionParentId": "458287419",
+                  "schemaVersion": 1,
+                  "type": "jira.comparator.condition",
+                  "value": {
+                    "first": "{{issue.parent}}",
+                    "second": "",
+                    "operator": "NOT_EQUALS"
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "458287421",
+                  "component": "CONDITION",
+                  "parentId": null,
+                  "conditionParentId": "458287419",
+                  "schemaVersion": 3,
+                  "type": "jira.issue.condition",
+                  "value": {
+                    "selectedField": {
+                      "type": "ID",
+                      "value": "issuetype"
+                    },
+                    "selectedFieldType": "issuetype",
+                    "comparison": "EQUALS",
+                    "compareValue": {
+                      "type": "ID",
+                      "modifier": null,
+                      "value": "10000",
+                      "multiValue": false,
+                      "source": null
+                    }
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "connectionId": null
+            }
+          ],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "458287431",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.comparator.condition",
+          "value": {
+            "first": "{{issue.parent}}",
+            "second": "",
+            "operator": "EQUALS"
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "458287432",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 3,
+          "type": "jira.issue.condition",
+          "value": {
+            "selectedField": {
+              "type": "ID",
+              "value": "issuetype"
+            },
+            "selectedFieldType": "issuetype",
+            "comparison": "EQUALS",
+            "compareValue": {
+              "type": "ID",
+              "modifier": null,
+              "value": "10000",
+              "multiValue": false,
+              "source": null
+            }
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "458287433",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 10,
+          "type": "jira.issue.edit",
+          "value": {
+            "operations": [],
+            "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": []\n    }\n}",
+            "sendNotifications": true
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        }
+      ],
+      "canOtherRuleTrigger": false,
+      "notifyOnError": "FIRSTERROR",
+      "projects": [],
+      "labels": [],
+      "tags": [
+        {
+          "id": 64353260,
+          "tagType": "IS_RULE_UPDATED",
+          "tagValue": "true"
+        }
+      ],
+      "ruleScope": {
+        "resources": [
+          "ari:cloud:jira::site/2604d8a6-7a83-454a-abcc-2cd164d90231"
+        ]
+      },
+      "ruleHome": {
+        "ruleLifecycleHome": {
+          "locationARI": "ari:cloud:jira-software::site/2604d8a6-7a83-454a-abcc-2cd164d90231"
+        },
+        "ruleBillingHome": {
+          "locationARI": "ari:cloud:jira-software::site/2604d8a6-7a83-454a-abcc-2cd164d90231"
+        }
+      },
+      "writeAccessType": "UNRESTRICTED",
+      "collaborators": [],
+      "billingType": "NORMAL",
+      "idUuid": null
+    }
+  ]
+}
