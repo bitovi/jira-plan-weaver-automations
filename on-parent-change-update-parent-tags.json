@@ -4,9 +4,9 @@
     {
       "id": 19332763,
       "clientKey": "85d0064a-d88f-3fb0-94f6-83bc501d5944",
-      "name": "Parent Change -> Update Reporting Tags",
+      "name": "Parent Change -> Update Parent Tags",
       "state": "ENABLED",
-      "description": "Change my parent tags when the parent changes",
+      "description": "Change parent tags when the parent issue is changed",
       "authorAccountId": "712020:09439106-98eb-4a97-a106-2dffd6fdaff0",
       "actor": {
         "type": "ACCOUNT_ID",
@@ -121,12 +121,12 @@
                     "id": "_customsmartvalue_id_1715131734804",
                     "name": {
                       "type": "FREE",
-                      "value": "reportingTagsToRemove"
+                      "value": "parentTagsToRemove"
                     },
                     "type": "SMART",
                     "query": {
                       "type": "SMART",
-                      "value": "[   {{#lookupIssues.first.Reporting Tags}} { \"remove\": \"{{.}}\" }, {{/}}   { \"remove\": \"{{lookupIssues.first.project.key}}\" } ]"
+                      "value": "[   {{#lookupIssues.first.Parent Tags}} { \"remove\": \"{{.}}\" }, {{/}}   { \"remove\": \"{{lookupIssues.first.project.key}}\" } ]"
                     },
                     "lazy": false
                   },
@@ -141,7 +141,7 @@
                   "conditionParentId": null,
                   "schemaVersion": 1,
                   "type": "codebarrel.action.log",
-                  "value": "JSON = {{reportingTagsToRemove}}",
+                  "value": "JSON = {{parentTagsToRemove}}",
                   "children": [],
                   "conditions": [],
                   "connectionId": null
@@ -155,7 +155,7 @@
                   "type": "jira.issue.edit",
                   "value": {
                     "operations": [],
-                    "advancedFields": "{\n\t\"update\": {\n            \"Reporting Tags\": {{reportingTagsToRemove}}\n        }\n}",
+                    "advancedFields": "{\n\t\"update\": {\n            \"Parent Tags\": {{parentTagsToRemove}}\n        }\n}",
                     "sendNotifications": false
                   },
                   "children": [],
@@ -187,7 +187,7 @@
                       "type": "jira.issue.edit",
                       "value": {
                         "operations": [],
-                        "advancedFields": "{\n\t\"update\": {\n            \"Reporting Tags\": {{reportingTagsToRemove}}\n        }\n}",
+                        "advancedFields": "{\n\t\"update\": {\n            \"Parent Tags\": {{parentTagsToRemove}}\n        }\n}",
                         "sendNotifications": false
                       },
                       "children": [],
@@ -250,12 +250,12 @@
             "id": "_customsmartvalue_id_1715132393986",
             "name": {
               "type": "FREE",
-              "value": "reportingTagsToAdd"
+              "value": "parentTagsToAdd"
             },
             "type": "SMART",
             "query": {
               "type": "SMART",
-              "value": "[   {{#issue.parent.Reporting Tags}} { \"add\": \"{{.}}\" }, {{/}}   { \"add\": \"{{issue.parent.project.key}}\" } ]"
+              "value": "[   {{#issue.parent.Parent Tags}} { \"add\": \"{{.}}\" }, {{/}}   { \"add\": \"{{issue.parent.project.key}}\" } ]"
             },
             "lazy": false
           },
@@ -270,7 +270,7 @@
           "conditionParentId": null,
           "schemaVersion": 1,
           "type": "codebarrel.action.log",
-          "value": "Tags to Add {{reportingTagsToAdd}}",
+          "value": "Tags to Add {{parentTagsToAdd}}",
           "children": [],
           "conditions": [],
           "connectionId": null
@@ -284,7 +284,7 @@
           "type": "jira.issue.edit",
           "value": {
             "operations": [],
-            "advancedFields": "{\n\t\"update\": {\n            \"Reporting Tags\": {{reportingTagsToAdd}}\n        }\n}",
+            "advancedFields": "{\n\t\"update\": {\n            \"Parent Tags\": {{parentTagsToAdd}}\n        }\n}",
             "sendNotifications": false
           },
           "children": [],
@@ -316,7 +316,7 @@
               "type": "jira.issue.edit",
               "value": {
                 "operations": [],
-                "advancedFields": "{\n\t\"update\": {\n            \"Reporting Tags\": {{reportingTagsToAdd}}\n        }\n}",
+                "advancedFields": "{\n\t\"update\": {\n            \"Parent Tags\": {{parentTagsToAdd}}\n        }\n}",
                 "sendNotifications": false
               },
               "children": [],
