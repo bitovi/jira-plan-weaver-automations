@@ -6,7 +6,7 @@
       "clientKey": "85d0064a-d88f-3fb0-94f6-83bc501d5944",
       "name": "Move -> Update Child Tags (fast)",
       "state": "ENABLED",
-      "description": "",
+      "description": "Update Child tags when an issue is moved between projects",
       "authorAccountId": "712020:09439106-98eb-4a97-a106-2dffd6fdaff0",
       "actor": {
         "type": "ACCOUNT_ID",
