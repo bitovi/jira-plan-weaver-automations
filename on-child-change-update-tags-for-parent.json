@@ -4,9 +4,9 @@
     {
       "id": 19332758,
       "clientKey": "85d0064a-d88f-3fb0-94f6-83bc501d5944",
-      "name": "Squad Tags change -> add Squad Tags to parent",
+      "name": "Child Tags change -> add Child Tags to parent issue",
       "state": "ENABLED",
-      "description": "",
+      "description": "Adds child tags to parent issue when there is a change in the child issue",
       "authorAccountId": "712020:09439106-98eb-4a97-a106-2dffd6fdaff0",
       "actor": {
         "type": "ACCOUNT_ID",
