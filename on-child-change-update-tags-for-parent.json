@@ -25,7 +25,7 @@
           "changeType": "VALUE_ADDED",
           "fields": [
             {
-              "value": "Squad Tags",
+              "value": "Child Tags",
               "type": "fieldName"
             }
           ],
@@ -116,7 +116,7 @@
             "id": "_customsmartvalue_id_1715140785188",
             "name": {
               "type": "FREE",
-              "value": "distinctSquadKeys"
+              "value": "distinctChildKeys"
             },
             "type": "SMART",
             "query": {
@@ -154,7 +154,7 @@
               "type": "jira.issue.edit",
               "value": {
                 "operations": [],
-                "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": {{distinctSquadKeys}}\n    }\n}",
+                "advancedFields": "{\n    \"fields\": {\n        \"Child Tags\": {{distinctChildKeys}}\n    }\n}",
                 "sendNotifications": false
               },
               "children": [],
