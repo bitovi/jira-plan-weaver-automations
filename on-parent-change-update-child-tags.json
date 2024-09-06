@@ -4,7 +4,7 @@
     {
       "id": 19332730,
       "clientKey": "85d0064a-d88f-3fb0-94f6-83bc501d5944",
-      "name": "Parent Change -> Update Squad Tags",
+      "name": "Parent Change -> Update Child Tags",
       "state": "DISABLED",
       "description": "",
       "authorAccountId": "712020:09439106-98eb-4a97-a106-2dffd6fdaff0",
@@ -278,7 +278,7 @@
                     "id": "_customsmartvalue_id_1715109193039",
                     "name": {
                       "type": "FREE",
-                      "value": "distinctSquadKeys"
+                      "value": "distinctChildKeys"
                     },
                     "type": "SMART",
                     "query": {
@@ -298,7 +298,7 @@
                   "conditionParentId": null,
                   "schemaVersion": 1,
                   "type": "codebarrel.action.log",
-                  "value": "Updating with {{distinctSquadKeys}}",
+                  "value": "Updating with {{distinctChildKeys}}",
                   "children": [],
                   "conditions": [],
                   "connectionId": null
@@ -328,7 +328,7 @@
                       "type": "jira.issue.edit",
                       "value": {
                         "operations": [],
-                        "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": {{distinctSquadKeys}}\n    }\n}",
+                        "advancedFields": "{\n    \"fields\": {\n        \"Child Tags\": {{distinctChildKeys}}\n    }\n}",
                         "sendNotifications": true
                       },
                       "children": [],
@@ -430,7 +430,7 @@
                       "type": "jira.issue.edit",
                       "value": {
                         "operations": [],
-                        "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": {{distinctSquadKeys}}\n    }\n}",
+                        "advancedFields": "{\n    \"fields\": {\n        \"Child Tags\": {{distinctChildKeys}}\n    }\n}",
                         "sendNotifications": true
                       },
                       "children": [],
@@ -482,7 +482,7 @@
                       "type": "jira.issue.edit",
                       "value": {
                         "operations": [],
-                        "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": {{distinctSquadKeys}}\n    }\n}",
+                        "advancedFields": "{\n    \"fields\": {\n        \"Child Tags\": {{distinctChildKeys}}\n    }\n}",
                         "sendNotifications": true
                       },
                       "children": [],
@@ -569,7 +569,7 @@
           "type": "jira.issue.edit",
           "value": {
             "operations": [],
-            "advancedFields": "{\n    \"fields\": {\n        \"Squad Tags\": []\n    }\n}",
+            "advancedFields": "{\n    \"fields\": {\n        \"Child Tags\": []\n    }\n}",
             "sendNotifications": true
           },
           "children": [],
