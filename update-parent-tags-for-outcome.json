@@ -4,7 +4,7 @@
     {
       "id": 19332709,
       "clientKey": "85d0064a-d88f-3fb0-94f6-83bc501d5944",
-      "name": "Update Reporting Tags For Outcome",
+      "name": "Update Parent Tags For Outcome",
       "state": "ENABLED",
       "description": "",
       "authorAccountId": "712020:09439106-98eb-4a97-a106-2dffd6fdaff0",
@@ -85,7 +85,7 @@
               "type": "jira.issue.edit",
               "value": {
                 "operations": [],
-                "advancedFields": "{\n\t\"fields\": {\n            \"Reporting Tags\": [\"{{triggerIssue.project.key}}\"]\n        }\n}",
+                "advancedFields": "{\n\t\"fields\": {\n            \"Parent Tags\": [\"{{triggerIssue.project.key}}\"]\n        }\n}",
                 "sendNotifications": true
               },
               "children": [],
@@ -121,7 +121,7 @@
               "type": "jira.issue.edit",
               "value": {
                 "operations": [],
-                "advancedFields": "{\n\t\"fields\": {\n            \"Reporting Tags\": [\"{{triggerIssue.project.key}}\",\"{{parent.project.key}}\"]\n        }\n}",
+                "advancedFields": "{\n\t\"fields\": {\n            \"Parent Tags\": [\"{{triggerIssue.project.key}}\",\"{{parent.project.key}}\"]\n        }\n}",
                 "sendNotifications": true
               },
               "children": [],
@@ -155,7 +155,7 @@
               "conditionParentId": null,
               "schemaVersion": 1,
               "type": "codebarrel.action.log",
-              "value": "[ {{#parent.Reporting Tags}}\"{{.}}\",{{/}} \"{{parent.project.key}}\" ]",
+              "value": "[ {{#parent.Parent Tags}}\"{{.}}\",{{/}} \"{{parent.project.key}}\" ]",
               "children": [],
               "conditions": [],
               "connectionId": null
@@ -169,7 +169,7 @@
               "type": "jira.issue.edit",
               "value": {
                 "operations": [],
-                "advancedFields": "{\n\t\"fields\": {\n            \"Reporting Tags\": [{{#parent.Reporting Tags}}\"{{.}}\",{{/}} \"{{parent.project.key}}\"]\n        }\n}",
+                "advancedFields": "{\n\t\"fields\": {\n            \"Parent Tags\": [{{#parent.Parent Tags}}\"{{.}}\",{{/}} \"{{parent.project.key}}\"]\n        }\n}",
                 "sendNotifications": true
               },
               "children": [],
