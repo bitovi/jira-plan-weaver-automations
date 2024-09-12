@@ -57,7 +57,7 @@
             "compareValue": {
               "type": "ID",
               "modifier": null,
-              "value": "[\"10000\",\"10067\",\"10110\",\"10111\"]",
+              "value": "[\"Foo\",\"bar\",\"10110\",\"10111\"]",
               "multiValue": true,
               "source": null
             }
