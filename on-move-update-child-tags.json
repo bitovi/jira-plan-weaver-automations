@@ -49,7 +49,7 @@
             "compareValue": {
               "type": "ID",
               "modifier": null,
-              "value": "[\"10000\",\"10067\",\"10111\",\"10110\"]",
+              "value": "[\"Epic\",\"Initiative\",\"Other Issue Types\"]",
               "multiValue": true,
               "source": null
             }
