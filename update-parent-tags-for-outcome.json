@@ -51,7 +51,7 @@
             "compareValue": {
               "type": "ID",
               "modifier": null,
-              "value": "Replace This!",
+              "value": "IssueTypeA",
               "multiValue": false,
               "source": null
             }
