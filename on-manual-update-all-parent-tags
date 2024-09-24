@@ -1,0 +1,249 @@
+{
+  "cloud": true,
+  "rules": [
+    {
+      "id": 22059550,
+      "clientKey": "01e4b5ac-896f-37d6-b506-bbd6e2e7c02d",
+      "name": "On Manual -> Update All Parent Tags",
+      "state": "ENABLED",
+      "description": "",
+      "authorAccountId": "5cab6ba65d3a4c096bc47e88",
+      "actor": {
+        "type": "ACCOUNT_ID",
+        "value": "557058:f58131cb-b67d-43c7-b30d-6b58d40bd077"
+      },
+      "created": 1727190223801,
+      "updated": 1727190260591,
+      "trigger": {
+        "id": "596587762",
+        "component": "TRIGGER",
+        "parentId": null,
+        "conditionParentId": null,
+        "schemaVersion": 3,
+        "type": "jira.manual.trigger.issue",
+        "value": {
+          "inputFromUsers": false,
+          "inputPrompts": [],
+          "groupIds": true,
+          "groups": [],
+          "issueFilter": null,
+          "jQLFilter": null
+        },
+        "children": [],
+        "conditions": [],
+        "connectionId": null
+      },
+      "components": [
+        {
+          "id": "596587763",
+          "component": "BRANCH",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.issue.related",
+          "value": {
+            "relatedType": "jql",
+            "jql": "type = Milestone and parent != Empty",
+            "linkTypes": [],
+            "onlyUpdatedIssues": false,
+            "similarityLimit": 40,
+            "compareValue": 0
+          },
+          "children": [
+            {
+              "id": "596587764",
+              "component": "ACTION",
+              "parentId": "596587763",
+              "conditionParentId": null,
+              "schemaVersion": 1,
+              "type": "jira.create.variable",
+              "value": {
+                "id": "_customsmartvalue_id_1727190129956",
+                "name": {
+                  "type": "FREE",
+                  "value": "parentTagsToAdd"
+                },
+                "type": "SMART",
+                "query": {
+                  "type": "SMART",
+                  "value": "[   {{#parent.Parent Tags}} { \"add\": \"{{.}}\" }, {{/}}   { \"add\": \"{{parent.project.key}}\" } ]"
+                },
+                "lazy": false
+              },
+              "children": [],
+              "conditions": [],
+              "connectionId": null
+            },
+            {
+              "id": "596587765",
+              "component": "ACTION",
+              "parentId": "596587763",
+              "conditionParentId": null,
+              "schemaVersion": 12,
+              "type": "jira.issue.edit",
+              "value": {
+                "operations": [],
+                "advancedFields": "{\n\t\"update\": {\n            \"Parent Tags\": {{parentTagsToAdd}}\n        }\n}",
+                "sendNotifications": false
+              },
+              "children": [],
+              "conditions": [],
+              "connectionId": null
+            }
+          ],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "596587766",
+          "component": "BRANCH",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.issue.related",
+          "value": {
+            "relatedType": "jql",
+            "jql": "type = Initiative and parent != Empty",
+            "linkTypes": [],
+            "onlyUpdatedIssues": false,
+            "similarityLimit": 40,
+            "compareValue": 0
+          },
+          "children": [
+            {
+              "id": "596587767",
+              "component": "ACTION",
+              "parentId": "596587766",
+              "conditionParentId": null,
+              "schemaVersion": 1,
+              "type": "jira.create.variable",
+              "value": {
+                "id": "_customsmartvalue_id_1727190129956",
+                "name": {
+                  "type": "FREE",
+                  "value": "parentTagsToAdd"
+                },
+                "type": "SMART",
+                "query": {
+                  "type": "SMART",
+                  "value": "[   {{#parent.Parent Tags}} { \"add\": \"{{.}}\" }, {{/}}   { \"add\": \"{{parent.project.key}}\" } ]"
+                },
+                "lazy": false
+              },
+              "children": [],
+              "conditions": [],
+              "connectionId": null
+            },
+            {
+              "id": "596587768",
+              "component": "ACTION",
+              "parentId": "596587766",
+              "conditionParentId": null,
+              "schemaVersion": 12,
+              "type": "jira.issue.edit",
+              "value": {
+                "operations": [],
+                "advancedFields": "{\n\t\"update\": {\n            \"Parent Tags\": {{parentTagsToAdd}}\n        }\n}",
+                "sendNotifications": false
+              },
+              "children": [],
+              "conditions": [],
+              "connectionId": null
+            }
+          ],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "596587769",
+          "component": "BRANCH",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.issue.related",
+          "value": {
+            "relatedType": "jql",
+            "jql": "type = Epic and parent != Empty",
+            "linkTypes": [],
+            "onlyUpdatedIssues": false,
+            "similarityLimit": 40,
+            "compareValue": 0
+          },
+          "children": [
+            {
+              "id": "596587770",
+              "component": "ACTION",
+              "parentId": "596587769",
+              "conditionParentId": null,
+              "schemaVersion": 1,
+              "type": "jira.create.variable",
+              "value": {
+                "id": "_customsmartvalue_id_1727190129956",
+                "name": {
+                  "type": "FREE",
+                  "value": "parentTagsToAdd"
+                },
+                "type": "SMART",
+                "query": {
+                  "type": "SMART",
+                  "value": "[   {{#parent.Parent Tags}} { \"add\": \"{{.}}\" }, {{/}}   { \"add\": \"{{parent.project.key}}\" } ]"
+                },
+                "lazy": false
+              },
+              "children": [],
+              "conditions": [],
+              "connectionId": null
+            },
+            {
+              "id": "596587771",
+              "component": "ACTION",
+              "parentId": "596587769",
+              "conditionParentId": null,
+              "schemaVersion": 12,
+              "type": "jira.issue.edit",
+              "value": {
+                "operations": [],
+                "advancedFields": "{\n\t\"update\": {\n            \"Parent Tags\": {{parentTagsToAdd}}\n        }\n}",
+                "sendNotifications": false
+              },
+              "children": [],
+              "conditions": [],
+              "connectionId": null
+            }
+          ],
+          "conditions": [],
+          "connectionId": null
+        }
+      ],
+      "canOtherRuleTrigger": false,
+      "notifyOnError": "FIRSTERROR",
+      "projects": [],
+      "labels": [],
+      "tags": [
+        {
+          "id": 88504089,
+          "ruleIdUuid": "0192248f-4bb9-750c-ab77-53df8c61a294",
+          "tagType": "IS_RULE_UPDATED",
+          "tagValue": "true"
+        }
+      ],
+      "ruleScope": {
+        "resources": [
+          "ari:cloud:jira::site/74eb923a-a968-44b2-8b4c-5b69e7266b8c"
+        ]
+      },
+      "ruleHome": {
+        "ruleLifecycleHome": {
+          "locationARI": "ari:cloud:jira-software::site/74eb923a-a968-44b2-8b4c-5b69e7266b8c"
+        },
+        "ruleBillingHome": {
+          "locationARI": "ari:cloud:jira-software::site/74eb923a-a968-44b2-8b4c-5b69e7266b8c"
+        }
+      },
+      "writeAccessType": "UNRESTRICTED",
+      "collaborators": [],
+      "billingType": "NORMAL",
+      "idUuid": "0192248f-4bb9-750c-ab77-53df8c61a294"
+    }
+  ]
+}
