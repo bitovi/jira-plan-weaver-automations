@@ -43,7 +43,7 @@
           "type": "jira.issue.related",
           "value": {
             "relatedType": "jql",
-            "jql": "type = Milestone and parent != Empty",
+            "jql": "type = \"Milestone\" and parent != Empty",
             "linkTypes": [],
             "onlyUpdatedIssues": false,
             "similarityLimit": 40,
@@ -103,7 +103,7 @@
           "type": "jira.issue.related",
           "value": {
             "relatedType": "jql",
-            "jql": "type = Initiative and parent != Empty",
+            "jql": "type = \"Initiative\" and parent != Empty",
             "linkTypes": [],
             "onlyUpdatedIssues": false,
             "similarityLimit": 40,
