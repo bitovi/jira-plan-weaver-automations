@@ -1,4 +1,4 @@
-{
+ic{
   "cloud": true,
   "rules": [
     {
@@ -56,7 +56,7 @@
             "compareValue": {
               "type": "ID",
               "modifier": null,
-              "value": "[\"IssueTypeA\",\"IssueTypeB\",\"IssueTypeC\"]",
+              "value": "[\"Epic\",\"Initiative\",\"Milestone\"]",
               "multiValue": true,
               "source": null
             }
@@ -97,7 +97,7 @@
             "type": "JQL",
             "query": {
               "type": "SMART",
-              "value": "( issuekey in portfolioChildIssuesOf(\"{{issue.parent.key}}\") and issuetype in (Epic, Initiative) )"
+              "value": "( issuekey in portfolioChildIssuesOf(\"{{issue.parent.key}}\") and issuetype in (Epic, \"Initiative\") )"
             },
             "lazy": false
           },
