@@ -1,0 +1,205 @@
+{
+  "cloud": true,
+  "rules": [
+    {
+      "id": 24184578,
+      "clientKey": "01e4b5ac-896f-37d6-b506-bbd6e2e7c02d",
+      "name": "On Issue Update -> Update Rank Of Children",
+      "state": "ENABLED",
+      "description": "Updates epic ranking when parent initiative ranking is changed.",
+      "authorAccountId": "5cab6ba65d3a4c096bc47e88",
+      "actor": {
+        "type": "ACCOUNT_ID",
+        "value": "557058:f58131cb-b67d-43c7-b30d-6b58d40bd077"
+      },
+      "created": 1737143814065,
+      "updated": 1737149075458,
+      "trigger": {
+        "id": "671259623",
+        "component": "TRIGGER",
+        "parentId": null,
+        "conditionParentId": null,
+        "schemaVersion": 1,
+        "type": "jira.issue.event.trigger:updated",
+        "value": {
+          "eventKey": "jira:issue_updated",
+          "issueEvent": "issue_updated"
+        },
+        "children": [],
+        "conditions": [],
+        "connectionId": null
+      },
+      "components": [
+        {
+          "id": "671259624",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "codebarrel.action.log",
+          "value": "{{#changelog.Rank}}{{fromString}} - {{toString}}{{/changelog.Rank}}",
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "671259625",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.comparator.condition",
+          "value": {
+            "first": "{{changelog.Rank}}",
+            "second": "",
+            "operator": "NOT_EQUALS"
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "671259626",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "codebarrel.action.log",
+          "value": "RANK WAS CHANGED",
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "671259627",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.lookup.issues",
+          "value": {
+            "id": "_customsmartvalue_id_1737146346551",
+            "name": {
+              "type": "FREE",
+              "value": "lookupIssues"
+            },
+            "type": "JQL",
+            "query": {
+              "type": "SMART",
+              "value": "parent = {{triggerIssue.key}}"
+            },
+            "lazy": false
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "671259628",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.create.variable",
+          "value": {
+            "id": "_customsmartvalue_id_1737146359746",
+            "name": {
+              "type": "FREE",
+              "value": "epicIds"
+            },
+            "type": "SMART",
+            "query": {
+              "type": "SMART",
+              "value": "[   {{#lookupIssues}} \"{{key}}\" {{^last}}, {{/}} {{/}}   ]"
+            },
+            "lazy": false
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "671259629",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "codebarrel.action.log",
+          "value": "epic IDS {{epicIds}}",
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "671259630",
+          "component": "ACTION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.issue.outgoing.webhook",
+          "value": {
+            "url": "https://bitovi-training.atlassian.net/rest/agile/1.0/issue/rank",
+            "headers": [
+              {
+                "id": "_header_1737146579895",
+                "name": "Content-Type",
+                "value": "application/json",
+                "headerSecure": false
+              },
+              {
+                "id": "_header_1737146756454",
+                "name": "Accept",
+                "value": "application/json",
+                "headerSecure": false
+              },
+              {
+                "id": "_header_1737147802729",
+                "name": "Authorization",
+                "value": "Basic anVzdGluQGJpdG92aS5jb206QVRBVFQzeEZmR0Ywdm5ub1dNYkNsUWs0R2hWVFR1dEUya0hEMGd4N3hrdEo5Ni1rYVRUWkotNVNucnlocDdUYVpfOFZQLVQtdGZVZFpWZlpsRDhQcFc3YVRIZlBHNGVPSVVJU3phMk5pdTRsSTJKSmtacW9JTkVUM3pESllYZkdpVmpnczB0UXRCNG9aMzVoNDUwLTg0S3B6M210Ukd4bk1COE9yb1RLYjE1bTBrcy1kMTdyZURVPTU1RThBODVB",
+                "headerSecure": false
+              }
+            ],
+            "sendIssue": false,
+            "contentType": "custom",
+            "customBody": "{\n  \"issues\": {{epicIds}},\n  \"rankAfterIssue\": \"{{triggerIssue.key}}\"\n}",
+            "method": "PUT",
+            "responseEnabled": true,
+            "continueOnErrorEnabled": false
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        }
+      ],
+      "canOtherRuleTrigger": false,
+      "notifyOnError": "FIRSTERROR",
+      "projects": [],
+      "labels": [],
+      "tags": [
+        {
+          "id": 97224283,
+          "ruleIdUuid": "019475d7-07b1-7a1f-8689-a952090705d7",
+          "tagType": "IS_RULE_UPDATED",
+          "tagValue": "true"
+        }
+      ],
+      "ruleScope": {
+        "resources": [
+          "ari:cloud:jira::site/74eb923a-a968-44b2-8b4c-5b69e7266b8c"
+        ]
+      },
+      "ruleHome": {
+        "ruleLifecycleHome": {
+          "locationARI": "ari:cloud:jira-software::site/74eb923a-a968-44b2-8b4c-5b69e7266b8c"
+        },
+        "ruleBillingHome": {
+          "locationARI": "ari:cloud:jira-software::site/74eb923a-a968-44b2-8b4c-5b69e7266b8c"
+        }
+      },
+      "writeAccessType": "UNRESTRICTED",
+      "collaborators": [],
+      "billingType": "NORMAL",
+      "idUuid": "019475d7-07b1-7a1f-8689-a952090705d7"
+    }
+  ]
+}
