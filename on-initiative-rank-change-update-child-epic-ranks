@@ -6,14 +6,14 @@
       "clientKey": "01e4b5ac-896f-37d6-b506-bbd6e2e7c02d",
       "name": "On Issue Update -> Update Rank Of Children",
       "state": "ENABLED",
-      "description": "Updates epic ranking when parent initiative ranking is changed.",
+      "description": "This rule updates the rank of child epics when an initiative's rank is updated. This ensures that the epics tied to that initiative are directly below the initiative itself. \n\nNOTE: THIS AUTOMATION REQUIRES A WEBHOOK TO USE. \nSteps: \n1. Get a web token from Jira through https://id.atlassian.com/manage-profile/security/api-tokens \n2. Run the command \"echo -n YOUREMAIL | base64\n(replace YOUREMAIL with your email)\n3. Copy and encrypt the base64 string\n4. Replace the current authorization key with \"basic\" followed by a space and your encrypted key. ",
       "authorAccountId": "5cab6ba65d3a4c096bc47e88",
       "actor": {
         "type": "ACCOUNT_ID",
         "value": "557058:f58131cb-b67d-43c7-b30d-6b58d40bd077"
       },
       "created": 1737143814065,
-      "updated": 1737149075458,
+      "updated": 1742485205816,
       "trigger": {
         "id": "671259623",
         "component": "TRIGGER",
@@ -86,7 +86,7 @@
             "type": "JQL",
             "query": {
               "type": "SMART",
-              "value": "parent = {{triggerIssue.key}}"
+              "value": "parent = {{triggerIssue.key}} Order By Rank"
             },
             "lazy": false
           },
@@ -177,7 +177,7 @@
       "labels": [],
       "tags": [
         {
-          "id": 97224283,
+          "id": 103865640,
           "ruleIdUuid": "019475d7-07b1-7a1f-8689-a952090705d7",
           "tagType": "IS_RULE_UPDATED",
           "tagValue": "true"
@@ -199,7 +199,8 @@
       "writeAccessType": "UNRESTRICTED",
       "collaborators": [],
       "billingType": "NORMAL",
-      "idUuid": "019475d7-07b1-7a1f-8689-a952090705d7"
+      "idUuid": "019475d7-07b1-7a1f-8689-a952090705d7",
+      "partitionId": "8e410ab2-0726-48bf-8e95-2b5851d3ef88"
     }
   ]
 }
