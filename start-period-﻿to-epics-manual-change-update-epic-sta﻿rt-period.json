@@ -1,0 +1,105 @@
+{
+  "cloud": true,
+  "rules": [
+    {
+      "id": 24423993,
+      "clientKey": "1d3b7311-ec54-3ca1-82db-4a29c7061976",
+      "name": "Start Period To Epics: Manual Change -> Update epic start period",
+      "state": "ENABLED",
+      "description": "When triggered manually from an Initiative, sets the Start period for any child epics not done to the Start period of the parent Initiative",
+      "authorAccountId": "712020:c7fe3742-e1d4-4a3f-96be-c0554d6a6f58",
+      "actor": {
+        "type": "ACCOUNT_ID",
+        "value": "557058:f58131cb-b67d-43c7-b30d-6b58d40bd077"
+      },
+      "created": 1737740300063,
+      "updated": 1738356291148,
+      "trigger": {
+        "id": "682823053",
+        "component": "TRIGGER",
+        "parentId": null,
+        "conditionParentId": null,
+        "schemaVersion": 3,
+        "type": "jira.manual.trigger.issue",
+        "value": {
+          "inputFromUsers": false,
+          "inputPrompts": [],
+          "groupIds": true,
+          "groups": [],
+          "issueFilter": null,
+          "jQLFilter": null
+        },
+        "children": [],
+        "conditions": [],
+        "connectionId": null
+      },
+      "components": [
+        {
+          "id": "682823054",
+          "component": "BRANCH",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.issue.related",
+          "value": {
+            "relatedType": "jql",
+            "jql": "( issuekey in portfolioChildIssuesOf(\"{{issue.key}}\") and type in (Epic) and statusCategory != Done )",
+            "linkTypes": [],
+            "onlyUpdatedIssues": false,
+            "similarityLimit": 40,
+            "compareValue": 0
+          },
+          "children": [
+            {
+              "id": "682823055",
+              "component": "ACTION",
+              "parentId": "682823054",
+              "conditionParentId": null,
+              "schemaVersion": 12,
+              "type": "jira.issue.edit",
+              "value": {
+                "operations": [],
+                "advancedFields": "{\n    \"fields\": {\n        \"Start period\": [{{#issue.parent.Start period}} \"{{.}}\" {{^last}},{{/}} {{/}}]\n    }\n}",
+                "sendNotifications": false
+              },
+              "children": [],
+              "conditions": [],
+              "connectionId": null
+            }
+          ],
+          "conditions": [],
+          "connectionId": null
+        }
+      ],
+      "canOtherRuleTrigger": false,
+      "notifyOnError": "FIRSTERROR",
+      "projects": [],
+      "labels": [],
+      "tags": [
+        {
+          "id": 98629349,
+          "ruleIdUuid": "01949964-af1f-7c27-95a3-79a17f4eaab7",
+          "tagType": "IS_RULE_UPDATED",
+          "tagValue": "true"
+        }
+      ],
+      "ruleScope": {
+        "resources": [
+          "ari:cloud:jira::site/53ba6440-1a1f-4da3-aace-71234e246d74"
+        ]
+      },
+      "ruleHome": {
+        "ruleLifecycleHome": {
+          "locationARI": "ari:cloud:jira-software::site/53ba6440-1a1f-4da3-aace-71234e246d74"
+        },
+        "ruleBillingHome": {
+          "locationARI": "ari:cloud:jira-software::site/53ba6440-1a1f-4da3-aace-71234e246d74"
+        }
+      },
+      "writeAccessType": "UNRESTRICTED",
+      "collaborators": [],
+      "billingType": "NORMAL",
+      "idUuid": "01949964-af1f-7c27-95a3-79a17f4eaab7"
+    }
+  ]
+}
