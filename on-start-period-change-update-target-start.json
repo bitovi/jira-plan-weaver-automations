@@ -1,0 +1,228 @@
+{
+  "cloud": true,
+  "rules": [
+    {
+      "id": 24429264,
+      "clientKey": "1d3b7311-ec54-3ca1-82db-4a29c7061976",
+      "name": "On Start Period Change -> Update target start",
+      "state": "ENABLED",
+      "description": "Sets an initiative target start date to the first day of a quarter when the start period (quarter) is set",
+      "authorAccountId": "712020:c7fe3742-e1d4-4a3f-96be-c0554d6a6f58",
+      "actor": {
+        "type": "ACCOUNT_ID",
+        "value": "557058:f58131cb-b67d-43c7-b30d-6b58d40bd077"
+      },
+      "created": 1737752511098,
+      "updated": 1738355692553,
+      "trigger": {
+        "id": "682815507",
+        "component": "TRIGGER",
+        "parentId": null,
+        "conditionParentId": null,
+        "schemaVersion": 2,
+        "type": "jira.issue.field.changed",
+        "value": {
+          "changeType": "ANY_CHANGE",
+          "fields": [
+            {
+              "value": "Start period",
+              "type": "fieldName"
+            }
+          ],
+          "actions": [
+            "create",
+            "edit",
+            "transition"
+          ],
+          "eventFilters": [
+            "ari:cloud:jira::site/53ba6440-1a1f-4da3-aace-71234e246d74"
+          ]
+        },
+        "children": [],
+        "conditions": [],
+        "connectionId": null
+      },
+      "components": [
+        {
+          "id": "682815508",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 3,
+          "type": "jira.issue.condition",
+          "value": {
+            "selectedField": {
+              "type": "ID",
+              "value": "issuetype"
+            },
+            "selectedFieldType": "issuetype",
+            "comparison": "EQUALS",
+            "compareValue": {
+              "type": "ID",
+              "modifier": null,
+              "value": "10013",
+              "multiValue": false,
+              "source": null
+            }
+          },
+          "children": [],
+          "conditions": [],
+          "connectionId": null
+        },
+        {
+          "id": "682815509",
+          "component": "CONDITION",
+          "parentId": null,
+          "conditionParentId": null,
+          "schemaVersion": 1,
+          "type": "jira.condition.container.block",
+          "value": null,
+          "children": [
+            {
+              "id": "682815510",
+              "component": "CONDITION_BLOCK",
+              "parentId": "682815509",
+              "conditionParentId": null,
+              "schemaVersion": 1,
+              "type": "jira.condition.if.block",
+              "value": {
+                "conditionMatchType": "ALL"
+              },
+              "children": [
+                {
+                  "id": "682815512",
+                  "component": "ACTION",
+                  "parentId": "682815510",
+                  "conditionParentId": null,
+                  "schemaVersion": 1,
+                  "type": "jira.issue.outgoing.webhook",
+                  "value": {
+                    "url": "https://auto-scheduler.bitovi-jira.com/tag-to-dates",
+                    "headers": [
+                      {
+                        "id": "_header_1722464749249",
+                        "name": "ngrok-skip-browser-warning",
+                        "value": "anything",
+                        "headerSecure": false
+                      }
+                    ],
+                    "sendIssue": false,
+                    "contentType": "custom",
+                    "customBody": "{\n  \"startTag\": \"{{issue.fields.Start period}}\"\n}",
+                    "method": "POST",
+                    "responseEnabled": true,
+                    "continueOnErrorEnabled": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                },
+                {
+                  "id": "682815513",
+                  "component": "ACTION",
+                  "parentId": "682815510",
+                  "conditionParentId": null,
+                  "schemaVersion": 12,
+                  "type": "jira.issue.edit",
+                  "value": {
+                    "operations": [],
+                    "advancedFields": "{\n    \"fields\": {\n        \"Target start\": \"{{webResponse.body.isoDay}}\"\n    }\n}",
+                    "sendNotifications": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "conditions": [
+                {
+                  "id": "682815511",
+                  "component": "CONDITION",
+                  "parentId": null,
+                  "conditionParentId": "682815510",
+                  "schemaVersion": 3,
+                  "type": "jira.issue.condition",
+                  "value": {
+                    "selectedField": {
+                      "type": "NAME",
+                      "value": "Start period"
+                    },
+                    "selectedFieldType": "com.atlassian.jira.plugin.system.customfieldtypes:labels",
+                    "comparison": "NOT_EMPTY",
+                    "compareValue": null
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "connectionId": null
+            },
+            {
+              "id": "682815514",
+              "component": "CONDITION_BLOCK",
+              "parentId": "682815509",
+              "conditionParentId": null,
+              "schemaVersion": 1,
+              "type": "jira.condition.if.block",
+              "value": {
+                "conditionMatchType": "ALL"
+              },
+              "children": [
+                {
+                  "id": "682815515",
+                  "component": "ACTION",
+                  "parentId": "682815514",
+                  "conditionParentId": null,
+                  "schemaVersion": 12,
+                  "type": "jira.issue.edit",
+                  "value": {
+                    "operations": [],
+                    "advancedFields": "{\n    \"fields\": {\n        \"Target start\": \"\"\n    }\n}",
+                    "sendNotifications": false
+                  },
+                  "children": [],
+                  "conditions": [],
+                  "connectionId": null
+                }
+              ],
+              "conditions": [],
+              "connectionId": null
+            }
+          ],
+          "conditions": [],
+          "connectionId": null
+        }
+      ],
+      "canOtherRuleTrigger": false,
+      "notifyOnError": "FIRSTERROR",
+      "projects": [],
+      "labels": [],
+      "tags": [
+        {
+          "id": 98628594,
+          "ruleIdUuid": "01949a1f-027b-7c49-be92-8c811a974292",
+          "tagType": "IS_RULE_UPDATED",
+          "tagValue": "true"
+        }
+      ],
+      "ruleScope": {
+        "resources": [
+          "ari:cloud:jira::site/53ba6440-1a1f-4da3-aace-71234e246d74"
+        ]
+      },
+      "ruleHome": {
+        "ruleLifecycleHome": {
+          "locationARI": "ari:cloud:jira-software::site/53ba6440-1a1f-4da3-aace-71234e246d74"
+        },
+        "ruleBillingHome": {
+          "locationARI": "ari:cloud:jira-software::site/53ba6440-1a1f-4da3-aace-71234e246d74"
+        }
+      },
+      "writeAccessType": "UNRESTRICTED",
+      "collaborators": [],
+      "billingType": "NORMAL",
+      "idUuid": "01949a1f-027b-7c49-be92-8c811a974292"
+    }
+  ]
+}
