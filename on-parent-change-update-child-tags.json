@@ -394,22 +394,6 @@
                   },
                   "children": [
                     {
-                      "id": "450260052",
-                      "component": "CONDITION",
-                      "parentId": "450260051",
-                      "conditionParentId": null,
-                      "schemaVersion": 1,
-                      "type": "jira.comparator.condition",
-                      "value": {
-                        "first": "{{valueThatDoesNotExist}}",
-                        "second": "",
-                        "operator": "NOT_EQUALS"
-                      },
-                      "children": [],
-                      "conditions": [],
-                      "connectionId": null
-                    },
-                    {
                       "id": "450260053",
                       "component": "ACTION",
                       "parentId": "450260051",
